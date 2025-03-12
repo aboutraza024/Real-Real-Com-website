@@ -1,0 +1,9 @@
+# Ignore all files in the output directory
+output/*
+venv/
+# Ignore all files in the logs directory
+logs/*
+.idea/
+chromedriver-win64/
+
+error_logs/*
