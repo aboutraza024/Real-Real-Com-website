@@ -1,4 +1,5 @@
-# with threads
+
+num_of_pages=2   #crawling links of first 2 pages
 from botasaurus.request import request, Request
 from botasaurus.soupify import soupify
 import csv
@@ -26,19 +27,18 @@ logger = logging.getLogger(__name__)
 
 
 write_lock = threading.Lock()
-num_of_pages=100   # select the number of pages you want to scrape
 output_file = "output/rings_urls.csv"
 base_url = "https://www.therealreal.com/"
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.9",
-    "Referer": "https://www.therealreal.com/",
 }
 
 proxy_data = {
-    'http': 'http://ue3a39fc857ea05cb-zone-custom-region-tr:ue3a39fc857ea05cb@118.193.59.102:2333',
-    'https': 'http://ue3a39fc857ea05cb-zone-custom-region-tr:ue3a39fc857ea05cb@118.193.59.102:2333'
+    "http": "http://a91ac6e8a76376a0:RNW78Fm5@res.proxy-seller.com:10000",
+    "https": "http://a91ac6e8a76376a0:RNW78Fm5@res.proxy-seller.com:10000",
 }
 
 def write_to_csv(link):
@@ -67,11 +67,11 @@ def crawl_rings(request: Request, data):
     page_number=data["page_number"]
     ring_links=[]
     try:
-        delay = random.uniform(1, 1.5)
+        delay = random.uniform(3, 8)
         time.sleep(delay)
         response = request.get(
             f"https://www.therealreal.com/sales/designer-jewelry?after=YXJyYXljb25uZWN0aW9uOjIzNQ%3D%3D&first=120&page={page_number}&taxons%5B%5D=1099",proxies=proxy_data)
-        delay = random.uniform(2, 5)
+        delay = random.uniform(1, 3)
         time.sleep(delay)
         if response.status_code == 200:
             soup = soupify(response)
